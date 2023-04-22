@@ -53,4 +53,5 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Employees::class, ['department_id' => 'id']);
     }
+    
 }

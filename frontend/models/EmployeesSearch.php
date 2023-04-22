@@ -17,8 +17,8 @@ class EmployeesSearch extends Employees
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['employee_name', 'department_id', 'designation_id', 'branch_id', 'gender'], 'safe'],
+            [['id', 'department_id', 'designation_id', 'branch_id'], 'integer'],
+            [['employee_name', 'gender'], 'safe'],
         ];
     }
 
@@ -46,6 +46,11 @@ class EmployeesSearch extends Employees
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            //** custom pagination */
+            'pagination'=>[
+                'pageSize'=>5
+            ]
+            
         ]);
 
         $this->load($params);
@@ -59,12 +64,12 @@ class EmployeesSearch extends Employees
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'department_id' => $this->department_id,
+            'designation_id' => $this->designation_id,
+            'branch_id' => $this->branch_id,
         ]);
 
         $query->andFilterWhere(['like', 'employee_name', $this->employee_name])
-            ->andFilterWhere(['like', 'department_id', $this->department_id])
-            ->andFilterWhere(['like', 'designation_id', $this->designation_id])
-            ->andFilterWhere(['like', 'branch_id', $this->branch_id])
             ->andFilterWhere(['like', 'gender', $this->gender]);
 
         return $dataProvider;

@@ -101,3 +101,6 @@ a.desc:after {
 {
     text-decoration: none;
 }
+.help-block {
+    color: red;
+}
