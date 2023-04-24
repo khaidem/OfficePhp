@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 use yii\bootstrap5\Modal;
+use kartik\export\ExportMenu;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\EmployeesSearch $searchModel */
@@ -36,7 +37,20 @@ $this->title = 'Employees';
         Modal::end();
 
         ?>
-      
+      <?php
+      $grideColumn = [
+        'branch_name',
+        'branch_address',
+        'branch_created_date',
+        'branch_status'
+      ];
+      //Render a Export dropDown menu
+    //   echo Export::widget([
+    //     'dataProvider'=>$dataProvider,
+    //     '_column'=>$grideColumn
+    //   ]);
+      ?>
+    
 
 
     <?= GridView::widget([
@@ -67,8 +81,15 @@ $this->title = 'Employees';
             // ],
             'department.department',
             'designation.designation',
-            'branch.branch_id',
-            'gender',
+            'branch.branch_name',
+            // 'gender',
+            [
+                'attribute'=>'gender',
+                'label'=>'Gender',
+                'filter'=> ['M'=>'Male', 'F'=>'Female'],
+                'filterInputOptions'=>['class'=>'form-control', 'id'=> null, 'prompt'=> 'All Gender']
+
+            ],
           
             [
                 'class' => ActionColumn::className(),

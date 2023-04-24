@@ -1,24 +1,24 @@
 <?php
 
-use frontend\models\Branch;
+use frontend\models\PoItem;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var frontend\models\BranchSearch $searchModel */
+/** @var frontend\models\PoItemSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Branches';
+$this->title = 'Po Items';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="branch-index">
+<div class="po-item-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Branch', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Po Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -30,10 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'branch_name',
+            'po_item_no',
+            'quantity',
+            'po_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Branch $model, $key, $index, $column) {
+                'urlCreator' => function ($action, PoItem $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

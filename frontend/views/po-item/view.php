@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var frontend\models\Employees $model */
+/** @var frontend\models\PoItem $model */
 
-// $this->title = $model->employee_name;
-$this->params['breadcrumbs'][] = ['label' => 'Employees', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Po Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="employees-view">
+<div class="po-item-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -25,17 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-    <h1>Details of Employee</h1>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            // 'id',
-            'employee_name',
-            'department.department',
-            'designation.designation',
-            'branch.branch_name',
-            'gender',
+            'id',
+            'po_item_no',
+            'quantity',
+            'po_id',
         ],
     ]) ?>
 

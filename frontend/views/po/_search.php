@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var frontend\models\BranchSearch $model */
+/** @var frontend\models\PoSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="branch-search">
+<div class="po-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,7 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'branch_name') ?>
+    <?= $form->field($model, 'po_no') ?>
+
+    <?= $form->field($model, 'description') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

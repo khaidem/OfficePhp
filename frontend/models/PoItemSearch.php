@@ -4,12 +4,12 @@ namespace frontend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Employees;
+use frontend\models\PoItem;
 
 /**
- * EmployeesSearch represents the model behind the search form of `frontend\models\Employees`.
+ * PoItemSearch represents the model behind the search form of `frontend\models\PoItem`.
  */
-class EmployeesSearch extends Employees
+class PoItemSearch extends PoItem
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class EmployeesSearch extends Employees
     public function rules()
     {
         return [
-            [['id', 'department_id', 'designation_id', 'branch_id'], 'integer'],
-            [['employee_name', 'gender'], 'safe'],
+            [['id', 'quantity', 'po_id'], 'integer'],
+            [['po_item_no'], 'safe'],
         ];
     }
 
@@ -40,17 +40,12 @@ class EmployeesSearch extends Employees
      */
     public function search($params)
     {
-        $query = Employees::find();
+        $query = PoItem::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            //** custom pagination */
-            'pagination'=>[
-                'pageSize'=>5
-            ]
-            
         ]);
 
         $this->load($params);
@@ -64,15 +59,11 @@ class EmployeesSearch extends Employees
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'department_id' => $this->department_id,
-            'designation_id' => $this->designation_id,
-            'branch_id' => $this->branch_id,
-            'gender'=> $this->gender
+            'quantity' => $this->quantity,
+            'po_id' => $this->po_id,
         ]);
 
-        $query->andFilterWhere(['like', 'employee_name', $this->employee_name]);
-        //** like is use when alll the data in the database same as name/chara */
-            // ->andFilterWhere(['like', 'gender', $this->gender]);
+        $query->andFilterWhere(['like', 'po_item_no', $this->po_item_no]);
 
         return $dataProvider;
     }
