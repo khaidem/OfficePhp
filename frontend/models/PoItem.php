@@ -30,7 +30,7 @@ class PoItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'po_item_no', 'quantity', 'po_id'], 'required'],
+            [['id', 'po_item_no', 'quantity'], 'required'],
             [['id', 'quantity', 'po_id'], 'integer'],
             [['po_item_no'], 'string', 'max' => 200],
             [['po_id'], 'exist', 'skipOnError' => true, 'targetClass' => Po::class, 'targetAttribute' => ['po_id' => 'id']],

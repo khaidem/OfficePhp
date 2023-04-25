@@ -2,21 +2,16 @@
 
 namespace frontend\controllers;
 
-use Exception;
-use frontend\models\Model;
-use frontend\models\Po;
-use frontend\models\PoItem;
-use frontend\models\PoSearch;
+use frontend\models\EmployeeProject;
+use frontend\models\EmployeeProjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii;
-use yii\base\Model as BaseModel;
 
 /**
- * PoController implements the CRUD actions for Po model.
+ * EmployeeProjectController implements the CRUD actions for EmployeeProject model.
  */
-class PoController extends Controller
+class EmployeeProjectController extends Controller
 {
     /**
      * @inheritDoc
@@ -37,13 +32,13 @@ class PoController extends Controller
     }
 
     /**
-     * Lists all Po models.
+     * Lists all EmployeeProject models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new PoSearch();
+        $searchModel = new EmployeeProjectSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -53,7 +48,7 @@ class PoController extends Controller
     }
 
     /**
-     * Displays a single Po model.
+     * Displays a single EmployeeProject model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -66,56 +61,29 @@ class PoController extends Controller
     }
 
     /**
-     * Creates a new Po model.
+     * Creates a new EmployeeProject model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Po();
-        $modelsPoItem = [new PoItem];
+        $model = new EmployeeProject();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                $modelsPoItem = Model::createMultiple(PoItem::classname());
-                Model::loadMultiple($modelsPoItem, Yii::$app->request->post());
-                // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelsPoItem) && $valid;
-                
-                if ($valid) {
-                    $transaction = \Yii::$app->db->beginTransaction();
-                    try {
-                        if ($flag = $model->save(false)) {
-                            foreach ($modelsPoItem as $modelsPoItem) {
-                                $modelsPoItem->po_id = $model->id;
-                                if (! ($flag = $modelsPoItem->save(false))) {
-                                    $transaction->rollBack();
-                                    break;
-                                }
-                            }
-                        }
-                        if ($flag) {
-                            $transaction->commit();
-                            return $this->redirect(['view', 'id' => $model->id]);
-                        }
-                    } catch (Exception $e) {
-                        $transaction->rollBack();
-                    }
-                }
-            
-                // return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-        } 
+        } else {
+            $model->loadDefaultValues();
+        }
 
         return $this->render('create', [
             'model' => $model,
-            'modelsPoItem' => (empty($modelsPoItem)) ? [new PoItem] : $modelsPoItem
         ]);
     }
 
     /**
-     * Updates an existing Po model.
+     * Updates an existing EmployeeProject model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -135,7 +103,7 @@ class PoController extends Controller
     }
 
     /**
-     * Deletes an existing Po model.
+     * Deletes an existing EmployeeProject model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -149,15 +117,15 @@ class PoController extends Controller
     }
 
     /**
-     * Finds the Po model based on its primary key value.
+     * Finds the EmployeeProject model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Po the loaded model
+     * @return EmployeeProject the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Po::findOne(['id' => $id])) !== null) {
+        if (($model = EmployeeProject::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
