@@ -39,16 +39,17 @@ $this->title = 'Employees';
         ?>
       <?php
       $grideColumn = [
-        'branch_name',
-        'branch_address',
-        'branch_created_date',
-        'branch_status'
+        'id',
+        'department.department',
+        'designation.designation',
+        'branch.branch_name',
+        'gender',
       ];
       //Render a Export dropDown menu
-    //   echo Export::widget([
-    //     'dataProvider'=>$dataProvider,
-    //     '_column'=>$grideColumn
-    //   ]);
+      echo ExportMenu::widget([
+        'dataProvider'=>$dataProvider,
+        'columns'=>$grideColumn
+      ]);
       ?>
     
 

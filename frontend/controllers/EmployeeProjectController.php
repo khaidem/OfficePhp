@@ -38,6 +38,7 @@ class EmployeeProjectController extends Controller
      */
     public function actionIndex()
     {
+      
         $searchModel = new EmployeeProjectSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

@@ -17,7 +17,7 @@ class EmployeeProjectSearch extends EmployeeProject
     public function rules()
     {
         return [
-            [['id', 'employee_id'], 'integer'],
+            [['id', 'employee_id', 'employee_education'], 'integer'],
             [['project_name'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class EmployeeProjectSearch extends EmployeeProject
         $query->andFilterWhere([
             'id' => $this->id,
             'employee_id' => $this->employee_id,
+            'employee_education' => $this->employee_education,
         ]);
 
         $query->andFilterWhere(['like', 'project_name', $this->project_name]);

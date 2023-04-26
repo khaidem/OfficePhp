@@ -22,7 +22,9 @@
         "symfony/css-selector": "2.8",
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-export": "*",
-        "loveorigami/yii2-bootstrap-toggle": "*"
+        "kartik-v/yii2-mpdf":"*",
+        "loveorigami/yii2-bootstrap-toggle": "*",
+        "kartik-v/yii2-bootstrap5-dropdown": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

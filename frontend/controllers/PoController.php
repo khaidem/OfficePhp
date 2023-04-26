@@ -11,7 +11,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii;
-use yii\base\Model as BaseModel;
 
 /**
  * PoController implements the CRUD actions for Po model.
@@ -108,10 +107,10 @@ class PoController extends Controller
             }
         } 
 
-        return $this->render('create', [
-            'model' => $model,
-            'modelsPoItem' => (empty($modelsPoItem)) ? [new PoItem] : $modelsPoItem
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+                'modelsPoItem' => (empty($modelsPoItem)) ? [new PoItem] : $modelsPoItem
+            ]);
     }
 
     /**
@@ -131,6 +130,7 @@ class PoController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+           
         ]);
     }
 

@@ -11,6 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+            // other module settings
+        ]
+        ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -36,14 +42,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            'class' => 'yii\web\UrlManager',
             'showScriptName' => false,
+            'enablePrettyUrl' => true,
             'rules' => [
             ],
         ],
-        */
+        
+        
     ],
     'params' => $params,
 ];

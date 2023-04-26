@@ -10,8 +10,6 @@ use Yii;
  * @property int $id
  * @property int $qualification
  * @property string $institution_name
- *
- * @property EmployeeProject[] $employeeProjects
  */
 class Education extends \yii\db\ActiveRecord
 {
@@ -45,15 +43,5 @@ class Education extends \yii\db\ActiveRecord
             'qualification' => 'Qualification',
             'institution_name' => 'Institution Name',
         ];
-    }
-
-    /**
-     * Gets query for [[EmployeeProjects]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEmployeeProjects()
-    {
-        return $this->hasMany(EmployeeProject::class, ['employee_qualification' => 'id']);
     }
 }
