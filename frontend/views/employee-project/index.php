@@ -23,8 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -34,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'project_name',
             'employee_id',
-            'employee_education',
+            'description',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, EmployeeProject $model, $key, $index, $column) {

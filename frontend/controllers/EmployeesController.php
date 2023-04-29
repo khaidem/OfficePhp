@@ -2,11 +2,16 @@
 
 namespace frontend\controllers;
 
+use Exception;
+use frontend\models\EmployeeProject;
 use frontend\models\Employees;
 use frontend\models\EmployeesSearch;
+use frontend\models\Model;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * EmployeesController implements the CRUD actions for Employees model.
@@ -56,7 +61,7 @@ class EmployeesController extends Controller
      */
     public function actionView($id)
     {
-        return $this->renderAjax('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -69,20 +74,49 @@ class EmployeesController extends Controller
     public function actionCreate()
     {
         $model = new Employees();
+        $modelsEmployeeProject = [new EmployeeProject];
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
+                $modelsEmployeeProject = Model::createMultiple(EmployeeProject::classname());
+                Model::loadMultiple($modelsEmployeeProject, Yii::$app->request->post());
+                // validate all models
+                // $valid = $model->validate();
+                // $valid = Model::validateMultiple($modelsEmployeeProject) && $valid;
+                
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
 
-        return $this->renderAjax('create', [
-            'model' => $model,
-        ]);
+                    if ($flag = $model->save()) {
+                    
+                        foreach ($modelsEmployeeProject as $modelsEmployeeProject) {
+                            
+                            $modelsEmployeeProject->employee_id = $model->id;
+                            if (! ($flag = $modelsEmployeeProject->save())) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                   
+                    if ($flag) {
+                        $transaction->commit();
+                    
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+        } 
+
+            return $this->render('create', [
+                'model' => $model,
+                'modelsEmployeeProject' => (empty($modelsEmployeeProject)) ? [new EmployeeProject] : $modelsEmployeeProject
+            ]);
     }
 
+   
     /**
      * Updates an existing Employees model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -93,13 +127,56 @@ class EmployeesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelsEmployeeProject = $model->employee_projectd;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $oldIDs= ArrayHelper::map($modelsEmployeeProject, 'id', 'id');
+            $modelEmployeeP = Model::createMultiple(EmployeeProject::className(),$modelsEmployeeProject);
+            Model::loadMultiple($modelsEmployeeProject, Yii::$app->request->post());
+            $deletedIds= array_diff($oldIDs, array_filter(ArrayHelper::map($modelsEmployeeProject, 'id', 'id')));
+            $transaction = \Yii::$app->db->beginTransaction();
+            try{
+                if ($flag = $model->save()) {
+
+                    if (!empty($deletedIDs)) {
+
+                        EmployeeProject::deleteAll(['id' => $deletedIDs]);
+
+                    }
+
+                    foreach ($modelsEmployeeProject as $modelsEmployeeProject) {
+
+                        $modelsEmployeeProject->customer_id = $model->id;
+
+                        if (! ($flag = $modelsEmployeeProject->save())) {
+
+                            $transaction->rollBack();
+
+                            break;
+
+                        }
+
+                    }
+
+                }
+
+                if ($flag) {
+
+                    $transaction->commit();
+
+                    return $this->redirect(['view', 'id' => $model->id]);
+
+                }
+            }catch(Exception $e){
+                $transaction->rollBack();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->renderAjax    ('update', [
+        return $this->render('update', [
             'model' => $model,
+            'modelsEmployeeProject' => (empty($modelsEmployeeProject)) ? [new EmployeeProject] : $modelsEmployeeProject
+
         ]);
     }
 

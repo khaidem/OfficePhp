@@ -43,13 +43,13 @@ return [
             'errorAction' => 'site/error',
         ],
         
-        'urlManager' => [
-            'class' => 'yii\web\UrlManager',
-            'showScriptName' => false,
-            'enablePrettyUrl' => true,
-            'rules' => [
-            ],
-        ],
+        // 'urlManager' => [
+        //     'class' => 'yii\web\UrlManager',
+        //     'showScriptName' => false,
+        //     'enablePrettyUrl' => true,
+        //     'rules' => [
+        //     ],
+        // ],
         
         
     ],

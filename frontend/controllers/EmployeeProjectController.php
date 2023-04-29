@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use frontend\models\EmployeeProject;
 use frontend\models\EmployeeProjectSearch;
+use frontend\models\Employees;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +39,6 @@ class EmployeeProjectController extends Controller
      */
     public function actionIndex()
     {
-      
         $searchModel = new EmployeeProjectSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -69,6 +69,7 @@ class EmployeeProjectController extends Controller
     public function actionCreate()
     {
         $model = new EmployeeProject();
+        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

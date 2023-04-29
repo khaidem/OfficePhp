@@ -21,23 +21,23 @@ $this->title = 'Employees';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Employees', ['create'], ['class' => 'btn btn-success modalButton']) ?>
+        <?= Html::a('Create Employees', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php
-        Modal::begin([
-            'headerOptions' => ['id' => 'modalHeader'],
-            'id' => 'modal',
-            //'options' => ['class' => 'modal'] //in case if you dont want animation, by default class is 'modal fade'
-        ]);
-        echo "<div id='modalContent'><div style='text-align:center'>"
+    //     Modal::begin([
+    //         'headerOptions' => ['id' => 'modalHeader'],
+    //         'id' => 'modal',
+    //         //'options' => ['class' => 'modal'] //in case if you dont want animation, by default class is 'modal fade'
+    //     ]);
+    //     echo "<div id='modalContent'><div style='text-align:center'>"
 
-            . "</div></div>";
-        Modal::end();
+    //         . "</div></div>";
+    //     Modal::end();
 
-        ?>
-      <?php
+    //     ?>
+       <?php
       $grideColumn = [
         'id',
         'department.department',

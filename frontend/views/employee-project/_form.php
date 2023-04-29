@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use wbraganca\dynamicform\DynamicFormWidget;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\EmployeeProject $model */
@@ -10,13 +11,16 @@ use yii\widgets\ActiveForm;
 
 <div class="employee-project-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
     <?= $form->field($model, 'project_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'employee_id')->textInput() ?>
 
-    <?= $form->field($model, 'employee_education')->textInput() ?>
+    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+
+ 
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
