@@ -127,45 +127,40 @@ class EmployeesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelsEmployeeProject = $model->employee_projectd;
+        // $modelsEmployeeProject = $model->employeeProjects;
+        $modelsEmployeeProject = EmployeeProject::find()->where(['employee_id'=>$model->id])->all();
+        // echo "<pre>";
+        // var_dump($modelsEmployeeProject);
+        // die;        
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
             $oldIDs= ArrayHelper::map($modelsEmployeeProject, 'id', 'id');
-            $modelEmployeeP = Model::createMultiple(EmployeeProject::className(),$modelsEmployeeProject);
+            $modelsEmployeeProject = Model::createMultiple(EmployeeProject::className(),$modelsEmployeeProject);
             Model::loadMultiple($modelsEmployeeProject, Yii::$app->request->post());
             $deletedIds= array_diff($oldIDs, array_filter(ArrayHelper::map($modelsEmployeeProject, 'id', 'id')));
-            $transaction = \Yii::$app->db->beginTransaction();
+            $transaction = \Yii::$app->db->beginTransaction(); 
             try{
                 if ($flag = $model->save()) {
-
-                    if (!empty($deletedIDs)) {
-
-                        EmployeeProject::deleteAll(['id' => $deletedIDs]);
-
+                    
+                    if (!empty($deletedIds)) {
+                        EmployeeProject::deleteAll(['id' => $deletedIds]);
                     }
-
                     foreach ($modelsEmployeeProject as $modelsEmployeeProject) {
 
-                        $modelsEmployeeProject->customer_id = $model->id;
+                        $modelsEmployeeProject->employee_id = $model->id;
 
                         if (! ($flag = $modelsEmployeeProject->save())) {
-
                             $transaction->rollBack();
-
                             break;
-
                         }
 
                     }
-
                 }
-
                 if ($flag) {
 
                     $transaction->commit();
 
                     return $this->redirect(['view', 'id' => $model->id]);
-
                 }
             }catch(Exception $e){
                 $transaction->rollBack();

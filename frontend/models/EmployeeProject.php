@@ -45,7 +45,7 @@ class EmployeeProject extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'project_name' => 'Project Name',
-            'employee_id' => 'Employee ID',
+            'employee_id' => 'EmployeeName',
             'description' => 'Description',
         ];
     }

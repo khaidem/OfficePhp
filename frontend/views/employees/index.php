@@ -94,7 +94,7 @@ $this->title = 'Employees';
           
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}  {update}',
+                'template' => '{view}  {update}{delete}',
                 'buttons'=> [
                     'view' => function ($url, $model) {
                         return Html::a('<i class="fa-solid fa-eye text-primary"></i>', ['view', 'id' => $model->id], ['class' => 'modalButton']);

@@ -14,9 +14,8 @@ use Yii;
  * @property int $branch_id
  * @property string $gender
  *
- * @property Branch $branch
- * @property Department $department
  * @property Designation $designation
+ * @property EmployeeProject[] $employeeProjects
  */
 class Employees extends \yii\db\ActiveRecord
 {
@@ -38,9 +37,7 @@ class Employees extends \yii\db\ActiveRecord
             [['department_id', 'designation_id', 'branch_id'], 'integer'],
             [['employee_name'], 'string', 'max' => 200],
             [['gender'], 'string', 'max' => 250],
-            [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['department_id' => 'id']],
             [['designation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Designation::class, 'targetAttribute' => ['designation_id' => 'id']],
-            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
         ];
     }
 
@@ -58,26 +55,7 @@ class Employees extends \yii\db\ActiveRecord
             'gender' => 'Gender',
         ];
     }
-
-    /**
-     * Gets query for [[Branch]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBranch()
-    {
-        return $this->hasOne(Branch::class, ['id' => 'branch_id']);
-    }
-
-    /**
-     * Gets query for [[Department]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDepartment()
-    {
-        return $this->hasOne(Department::class, ['id' => 'department_id']);
-    }
+    
 
     /**
      * Gets query for [[Designation]].
@@ -88,4 +66,34 @@ class Employees extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Designation::class, ['id' => 'designation_id']);
     }
+
+    /**
+     * Gets query for [[EmployeeProjects]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeProjects()
+    {
+        return $this->hasMany(EmployeeProject::class, ['employee_id' => 'id']);
+    }
+    /**
+     * Gets query for [[Department]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::class, ['id' => 'department_id']);
+    }
+        /**
+     * Gets query for [[Branch]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBranch()
+    {
+        return $this->hasOne(Branch::class, ['id' => 'branch_id']);
+    }
+
+   
 }
